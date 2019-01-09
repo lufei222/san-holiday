@@ -2,13 +2,7 @@ CREATE TABLE `kq_holiday` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `day` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1492 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `kq_holiday` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `day` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1492 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- 2019年节假日，2019年全年节假日含周末，已去除调休成工作日的周末
 -- INSERT INTO kq_holiday (`id`, `day`) VALUES ('1', '20190101');
