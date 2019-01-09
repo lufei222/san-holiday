@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class getHolidays {
 
+    //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
     private  static String SEPARATOR = "";
     private static int YEAR = 2019;
 
