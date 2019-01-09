@@ -10,6 +10,45 @@ public class getHolidays {
     private static int YEAR = 2019;
 
     /**
+     *         全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [得到所有的调休日] - [查询数据库已经存在的假期集合]
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        Set<String> allHolidays = new HashSet<>();
+
+        //查询全年的双休周末
+        Set<String> yearDoubleWeekend = getYearDoubleWeekend(YEAR);
+        allHolidays.addAll(yearDoubleWeekend);
+        // [+]
+        Set<String> legalHolidays = getLegalHoliday(YEAR);
+        allHolidays.addAll(legalHolidays);
+        //得到所有的法定节假日
+        // [-]
+        //得到所有的调休为上班的日期
+        Set<String> adjustRestWorkDays = getAdjustRestWorkDays(YEAR);
+        allHolidays.stream().filter(x->adjustRestWorkDays.contains(x)).collect(Collectors.toSet());
+
+        // [-]
+        //查询数据库已经存在的假期集合，
+        List<LinkedHashMap<String, Object>> existDBHolidaysMap = DBhepler.getListSql(" select *  from kq_holiday;");
+        Set<String> existDBHolidaysSet = new HashSet<>();
+        existDBHolidaysMap.forEach(x->{
+            existDBHolidaysSet.add(x.get("day").toString());
+        });
+        allHolidays = allHolidays.stream().filter(x->!existDBHolidaysSet.contains(x)).collect(Collectors.toSet());
+
+        //排序
+        List<Integer> allHolidaysInt = allHolidays.stream().map(x -> Integer.valueOf(x)).collect(Collectors.toList());
+        allHolidaysInt.sort(Comparator.naturalOrder());
+
+        System.out.println(allHolidaysInt);
+        //插入所有假期数据到假期表中
+        batchInsertHolidaysToDB(allHolidaysInt);
+        System.out.println("插入"+YEAR+"年所有假期成功");
+    }
+
+    /**
      * 手动维护2019年的法定节假日
      * @param year
      * @return
@@ -76,42 +115,7 @@ public class getHolidays {
         return restDays;
     }
 
-    public static void main(String[] args) {
 
-        Set<String> allHolidays = new HashSet<>();
-
-//        全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [得到所有的调休日] - [查询数据库已经存在的假期集合]
-
-        //查询全年的双休周末
-        Set<String> yearDoubleWeekend = getYearDoubleWeekend(YEAR);
-        allHolidays.addAll(yearDoubleWeekend);
-        // [+]
-        Set<String> legalHolidays = getLegalHoliday(YEAR);
-        allHolidays.addAll(legalHolidays);
-        //得到所有的法定节假日
-        // [-]
-        //得到所有的调休为上班的日期
-        Set<String> adjustRestWorkDays = getAdjustRestWorkDays(YEAR);
-        allHolidays.stream().filter(x->adjustRestWorkDays.contains(x)).collect(Collectors.toSet());
-
-        // [-]
-        //查询数据库已经存在的假期集合，
-        List<LinkedHashMap<String, Object>> existDBHolidaysMap = DBhepler.getListSql(" select *  from kq_holiday;");
-        Set<String> existDBHolidaysSet = new HashSet<>();
-        existDBHolidaysMap.forEach(x->{
-            existDBHolidaysSet.add(x.get("day").toString());
-        });
-        allHolidays = allHolidays.stream().filter(x->!existDBHolidaysSet.contains(x)).collect(Collectors.toSet());
-
-        //排序
-        List<Integer> allHolidaysInt = allHolidays.stream().map(x -> Integer.valueOf(x)).collect(Collectors.toList());
-        allHolidaysInt.sort(Comparator.naturalOrder());
-
-        System.out.println(allHolidaysInt);
-        //插入所有假期数据到假期表中
-        batchInsertHolidaysToDB(allHolidaysInt);
-        System.out.println("插入"+YEAR+"年所有假期成功");
-    }
 
     private static void batchInsertHolidaysToDB(List<Integer> allHolidaysInt) {
         List<LinkedHashMap<String, String>> list =new ArrayList<>();
