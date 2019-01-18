@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class getHolidays {
+public class GetHolidays {
 
     //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
     private  static String SEPARATOR = "";
