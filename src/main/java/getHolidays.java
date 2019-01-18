@@ -9,6 +9,7 @@ public class getHolidays {
     //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
     private  static String SEPARATOR = "";
     private static int YEAR = 2019;
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd") ;
 
     /**
      *         全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [得到所有的调休日] - [查询数据库已经存在的假期集合]
@@ -19,7 +20,10 @@ public class getHolidays {
         Set<String> allHolidays = new HashSet<>();
 
         //查询全年的双休周末
-        Set<String> yearDoubleWeekend = getYearDoubleWeekend(YEAR);
+        Set<String> yearDoubleWeekend = getWeekDayList(YEAR);
+//        Set<String> yearDoubleWeekendOld = getYearDoubleWeekend(YEAR);
+//        yearDoubleWeekend.removeAll(yearDoubleWeekendOld);
+//        System.out.println("after remove all "+yearDoubleWeekend);
         allHolidays.addAll(yearDoubleWeekend);
         // [+]
         Set<String> legalHolidays = getLegalHoliday(YEAR);
@@ -43,7 +47,8 @@ public class getHolidays {
         List<Integer> allHolidaysInt = allHolidays.stream().map(x -> Integer.valueOf(x)).collect(Collectors.toList());
         allHolidaysInt.sort(Comparator.naturalOrder());
 
-        System.out.println(allHolidaysInt);
+        int allHolidaysSize = allHolidaysInt==null || allHolidaysInt.size()==0 ? 0 : allHolidaysInt.size();
+        System.out.println("当前插入新的数据allHolidaysInt.size=" + allHolidaysSize +":"+allHolidaysInt);
         //插入所有假期数据到假期表中
         batchInsertHolidaysToDB(allHolidaysInt);
         System.out.println("插入"+YEAR+"年所有假期成功");
@@ -187,7 +192,7 @@ public class getHolidays {
     }
 
     /**
-     * 获取一年内所有的双休日
+     * 获取一年内所有的双休日,这个方法有问题，[20190832, 20191131]竟然有这两个非法日期
      * @param year
      * @return
      */
@@ -215,5 +220,24 @@ public class getHolidays {
         String monthStr = monthInt+"";
         String doublemonth = monthStr.length()==1? "0"+ monthStr : monthStr ;
         return doublemonth;
+    }
+    public static Set<String> getWeekDayList(int year) {
+        Set<String> listDate = new HashSet<>();
+        int i = 1;
+        Calendar calendar = new GregorianCalendar(year, 0, 1);
+
+        while (calendar.get(Calendar.YEAR) < year + 1) {
+            calendar.set(Calendar.WEEK_OF_YEAR, i++);
+
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            if (calendar.get(Calendar.YEAR) == year) {
+                listDate.add(dateFormat.format(calendar.getTime()));
+            }
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+            if (calendar.get(Calendar.YEAR) == year) {
+                listDate.add(dateFormat.format(calendar.getTime()));
+            }
+        }
+        return listDate;
     }
 }
