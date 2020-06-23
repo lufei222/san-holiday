@@ -17,7 +17,8 @@ public class GetHolidays {
     private static int YEAR = 2020;
     static SimpleDateFormat yyyyMMddFMT = new SimpleDateFormat("yyyyMMdd") ;
     /**
-     * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [得到所有的调休日] - [查询数据库已经存在的假期集合]
+     * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [所有的调休日])
+     * 插入数据库时，先看数据库是否已存在，已存在则不重复插入
      */
     public static void main(String[] args) {
 
@@ -38,7 +39,7 @@ public class GetHolidays {
 
         // [-]
         //查询数据库已经存在的假期集合，
-        List<LinkedHashMap<String, Object>> existDBHolidaysMap = DBhepler.getListSql(" select *  from no_work_day;");
+        List<LinkedHashMap<String, Object>> existDBHolidaysMap = DBConfig.getListSql(" select *  from no_work_day;");
         Set<String> existDBHolidaysSet = new HashSet<>();
         existDBHolidaysMap.forEach(x->{
             existDBHolidaysSet.add(x.get("day").toString());
@@ -138,7 +139,7 @@ public class GetHolidays {
             e.printStackTrace();
         }
         String sql= "insert into no_work_day (day) values(?);";
-        DBhepler.batchInsert(list,sql);
+        DBConfig.batchInsert(list,sql);
     }
 
     public static Set<String> getWeekDayList(int year) {

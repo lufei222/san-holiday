@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 数据库连接配置文件
  */
-public class DBhepler {
+public class DBConfig {
 
     static final String driver = "com.mysql.cj.jdbc.Driver";
     static final String url = "jdbc:mysql://localhost:3306/kaoqin?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
@@ -20,9 +20,9 @@ public class DBhepler {
     static Connection conn = null;
     ResultSet res = null;
 
-    static DBhepler db = new DBhepler();
+    static DBConfig db = new DBConfig();
 
-    public DBhepler(){
+    public DBConfig(){
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, user, password);
