@@ -35,7 +35,8 @@ public class GetHolidays {
         // [-]
         //得到所有的调休为上班的日期
         Set<String> adjustRestWorkDays = getAdjustRestWorkDays(YEAR);
-        allHolidays.stream().filter(x->adjustRestWorkDays.contains(x)).collect(Collectors.toSet());
+        //修复之前没有把调休日去掉的问题
+        allHolidays = allHolidays.stream().filter(x->!adjustRestWorkDays.contains(x)).collect(Collectors.toSet());
 
         // [-]
         //查询数据库已经存在的假期集合，
