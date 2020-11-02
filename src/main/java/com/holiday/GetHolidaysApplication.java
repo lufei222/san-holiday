@@ -10,11 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GetHolidays {
+public class GetHolidaysApplication {
 
     //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
     private  static String SEPARATOR = "";
-    private static int YEAR = 2020;
+    private static int YEAR = 2019;
     static SimpleDateFormat yyyyMMddFMT = new SimpleDateFormat("yyyyMMdd") ;
     /**
      * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [所有的调休日])
@@ -29,12 +29,12 @@ public class GetHolidays {
 
         allHolidays.addAll(yearDoubleWeekend);
         // [+]
-        Set<String> legalHolidays = new Date2020().getLegalHoliday(YEAR);
+        Set<String> legalHolidays = new DateServiceFactory().getDateByYear(YEAR).getLegalHoliday();
         allHolidays.addAll(legalHolidays);
         //得到所有的法定节假日
         // [-]
         //得到所有的调休为上班的日期
-        Set<String> adjustRestWorkDays = new Date2020().getAdjustRestWorkDays(YEAR);
+        Set<String> adjustRestWorkDays =  new DateServiceFactory().getDateByYear(YEAR).getAdjustRestWorkDays();
         //修复之前没有把调休日去掉的问题
         allHolidays = allHolidays.stream().filter(x->!adjustRestWorkDays.contains(x)).collect(Collectors.toSet());
 
@@ -52,13 +52,11 @@ public class GetHolidays {
         allHolidaysInt.sort(Comparator.naturalOrder());
 
         int allHolidaysSize = allHolidaysInt==null || allHolidaysInt.size()==0 ? 0 : allHolidaysInt.size();
-        System.out.println("当前插入新的数据allHolidaysInt.size=" + allHolidaysSize +":"+allHolidaysInt);
+        System.out.println("当前插入新的数据allHolidaysInt.size=" + allHolidaysSize +" 条\n"+allHolidaysInt);
         //插入所有假期数据到假期表中
         batchInsertHolidaysToDB(allHolidaysInt);
         System.out.println("插入"+YEAR+"年所有假期成功");
     }
-
-
 
     private static void batchInsertHolidaysToDB(List<Integer> allHolidaysInt) {
         List<LinkedHashMap<String, String>> list =new ArrayList<>();

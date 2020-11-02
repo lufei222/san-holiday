@@ -6,11 +6,10 @@ import java.util.Set;
 public class Date2019 implements DateService{
     /**
      * 手动维护2019年的法定节假日
-     * @param year
      * @return
      */
     @Override
-    public Set<String> getLegalHoliday(int year){
+    public Set<String> getLegalHoliday(){
         Set<String> holidays = new HashSet<String>();
         //元旦
         holidays.add("20190101");
@@ -54,11 +53,10 @@ public class Date2019 implements DateService{
 
     /**
      * 手动维护2019年的法定节假日的调休上班工作日
-     * @param year
      * @return
      */
     @Override
-    public Set<String> getAdjustRestWorkDays(int year) {
+    public Set<String> getAdjustRestWorkDays() {
         Set<String> restDays = new HashSet<String>();
         //元旦
         //春节

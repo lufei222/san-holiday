@@ -7,11 +7,10 @@ public class Date2020 implements DateService{
 
     /**
      * 手动维护2020年的法定节假日
-     * @param year
      * @return
      */
     @Override
-    public Set<String> getLegalHoliday(int year){
+    public Set<String> getLegalHoliday(){
         Set<String> holidays = new HashSet<String>();
         //元旦
         holidays.add("20200101");
@@ -52,11 +51,10 @@ public class Date2020 implements DateService{
 
     /**
      * 手动维护2020年的法定节假日的调休上班工作日
-     * @param year
      * @return
      */
     @Override
-    public Set<String> getAdjustRestWorkDays(int year) {
+    public Set<String> getAdjustRestWorkDays() {
         Set<String> restDays = new HashSet<String>();
         //元旦
         //春节
