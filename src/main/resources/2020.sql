@@ -1,3 +1,16 @@
+-- 下面的sql执行过可不执行 start
+
+drop database if exists kaoqin;
+create database kaoqin;
+
+use kaoqin;
+CREATE TABLE `no_work_day` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 上面的sql执行过可不执行 end
 
 -- 2020年不上班的日子，2020年全年节假日含周末，已去除调休成工作日的周末
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('1', '20200101');
