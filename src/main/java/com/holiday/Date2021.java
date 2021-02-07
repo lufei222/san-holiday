@@ -60,6 +60,7 @@ public class Date2021 implements DateService{
         Set<String> restDays = new HashSet<String>();
         //元旦
         //春节
+        restDays.add("20210207");
         restDays.add("20210218");
         //清明节
         //劳动节
