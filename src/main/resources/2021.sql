@@ -24,7 +24,6 @@ INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2009', '20210124');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2010', '20210130');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2011', '20210131');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2012', '20210206');
-INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2013', '20210207');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2014', '20210211');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2015', '20210212');
 INSERT INTO `no_work_day` (`id`, `day`) VALUES ('2016', '20210213');
