@@ -12,8 +12,12 @@ import java.util.Map;
  */
 public class DBConfig {
 
+    static final String HOST="localhost";
+    static final String PORT="3306";
+    static final String DATABASE="kaoqin";
+
     static final String driver = "com.mysql.cj.jdbc.Driver";
-    static final String url = "jdbc:mysql://localhost:3306/kaoqin?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
+    static final String url = "jdbc:mysql://"+HOST+":"+PORT+"/"+DATABASE+"?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
     static final String user ="root";
     static final String password="root";
     

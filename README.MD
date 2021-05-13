@@ -48,17 +48,23 @@ http://timor.tech/api/holiday
 ## 方法二 ： 代码运行获得节假日
 周末 + 节假日 -（被调成工作日的日期）= 节假日
 
-1.修改DBhelper数据库配置文件  
-2.执行db.sql文件  
-3.配置getHolidays方法中的法定节假日和调休日期  
-4.运行com.holiday.GetHolidays 的 main方法
+1.创建数据库 createDB.sql 文件  
+2.修改 DBConfig 数据库配置
+3.在 DateServiceFactory 如 添加类 Date2021
+ case 2021: {
+    return new Date2021();
+}
+4.参考 Date2021、Date2020，新增类 如 Date2022 --->>> 补充方法中的法定节假日和调休日期  
+5.运行 com/holiday/GetHolidaysApplication.java  main 方法
 
-日期格式自定义getHolidays的SEPARATOR参数内容，用20200101或2020-01-01
+日期格式自定义修改getHolidays的变量SEPARATOR ，用20200101或2020-01-01
 
-## 方法三：直接执行拿2020.sql 日期数据 到自己的数据库
-- createDB.sql
+6、查看控制台日志、数据库插入情况
 
-- 2020.sql
+## 方法三：直接执行拿2021.sql 日期数据 到自己的数据库
+- 执行创建数据库 createDB.sql
+
+- 执行数据 2021.sql
 
 ***
 

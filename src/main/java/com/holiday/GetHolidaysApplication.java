@@ -14,7 +14,7 @@ public class GetHolidaysApplication {
 
     //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
     private  static String SEPARATOR = "";
-    private static int YEAR = 2019;
+    private static int YEAR = 2021;
     static SimpleDateFormat yyyyMMddFMT = new SimpleDateFormat("yyyyMMdd") ;
     /**
      * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [所有的调休日])
@@ -95,7 +95,7 @@ public class GetHolidaysApplication {
 
 
     /**
-     * 获取节假日和调休日
+     * 获取补班日、节假日
      */
     @org.junit.Test
     public void get2020AllSpecialDays() {
@@ -117,7 +117,7 @@ public class GetHolidaysApplication {
                 Map<String,Object> holidaysMap =(Map)entry.getValue();
                 holidaysMap.forEach((k,v)->{
                     String dayLine = "2020-" + k;
-                    String day = DateTime.parse(dayLine, yyMMddFMT).toString("yyyyMMddFMT");
+                    String day = DateTime.parse(dayLine, yyMMddFMT).toString("yyyyMMdd");
                     if((Boolean) ((JSONObject) v).get("holiday")==false){
                         workDays.add(Integer.valueOf(day));
                     }
@@ -127,12 +127,12 @@ public class GetHolidaysApplication {
                 });
             }
         }
-        System.out.println("上班日-------->");
+        System.out.println("补班日-------->");
         Collections.sort(workDays);
         workDays.forEach(x->{
             System.out.println(x);
         });
-        System.out.println("假期-------->");
+        System.out.println("节假日-------->");
         Collections.sort(holidays);
         holidays.forEach(x->{
             System.out.println(x);
