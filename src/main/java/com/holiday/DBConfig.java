@@ -113,6 +113,7 @@ public class DBConfig {
             }
             st.executeBatch();
         } catch (Exception e) {
+            System.out.println("batchInsert-------->批量插入一次");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

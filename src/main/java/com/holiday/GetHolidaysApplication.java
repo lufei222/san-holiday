@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class GetHolidaysApplication {
 
-    //日期格式分隔符，格式如20190101或2019-01-01，""/"-"
+    //日期格式分隔符，格式如20220101或2022-01-01，""/"-"
     private  static String SEPARATOR = "";
-    private static int YEAR = 2021;
+    private static int YEAR = 2022;
     static SimpleDateFormat yyyyMMddFMT = new SimpleDateFormat("yyyyMMdd") ;
     /**
      * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [所有的调休日])
@@ -22,6 +22,7 @@ public class GetHolidaysApplication {
      */
     public static void main(String[] args) {
 
+        System.out.println("正在处理的年份是--------"+YEAR);
         Set<String> allHolidays = new HashSet<>();
 
         //查询全年的双休周末
@@ -56,6 +57,7 @@ public class GetHolidaysApplication {
         //插入所有假期数据到假期表中
         batchInsertHolidaysToDB(allHolidaysInt);
         System.out.println("插入"+YEAR+"年所有假期成功");
+
     }
 
     private static void batchInsertHolidaysToDB(List<Integer> allHolidaysInt) {
@@ -73,31 +75,11 @@ public class GetHolidaysApplication {
         DBConfig.batchInsert(list,sql);
     }
 
-    public static Set<String> getWeekDayList(int year) {
-        Set<String> listDate = new HashSet<>();
-        int i = 1;
-        Calendar calendar = new GregorianCalendar(year, 0, 1);
-
-        while (calendar.get(Calendar.YEAR) < year + 1) {
-            calendar.set(Calendar.WEEK_OF_YEAR, i++);
-
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-            if (calendar.get(Calendar.YEAR) == year) {
-                listDate.add(yyyyMMddFMT.format(calendar.getTime()));
-            }
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-            if (calendar.get(Calendar.YEAR) == year) {
-                listDate.add(yyyyMMddFMT.format(calendar.getTime()));
-            }
-        }
-        return listDate;
-    }
-
-
-    /**
+    /** test，unused
      * 获取补班日、节假日
      */
     @org.junit.Test
+    @Deprecated
     public void get2020AllSpecialDays() {
         DateTimeFormatter yyMMddFMT = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -139,5 +121,26 @@ public class GetHolidaysApplication {
         });
 
     }
+
+    public static Set<String> getWeekDayList(int year) {
+        Set<String> listDate = new HashSet<>();
+        int i = 1;
+        Calendar calendar = new GregorianCalendar(year, 0, 1);
+
+        while (calendar.get(Calendar.YEAR) < year + 1) {
+            calendar.set(Calendar.WEEK_OF_YEAR, i++);
+
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            if (calendar.get(Calendar.YEAR) == year) {
+                listDate.add(yyyyMMddFMT.format(calendar.getTime()));
+            }
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+            if (calendar.get(Calendar.YEAR) == year) {
+                listDate.add(yyyyMMddFMT.format(calendar.getTime()));
+            }
+        }
+        return listDate;
+    }
+
 
 }
