@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class GetHolidaysApplication {
 
-    //日期格式分隔符，格式如20220101或2022-01-01，""/"-"
+    //日期格式分隔符，格式如20230101或2023-01-01，""/"-"
     private  static String SEPARATOR = "";
-    private static int YEAR = 2022;
+    private static int YEAR = 2023;
     static SimpleDateFormat yyyyMMddFMT = new SimpleDateFormat("yyyyMMdd") ;
     /**
      * 全年假期集合 = [查询全年的双休周末] + [得到所有的法定节假日] - [所有的调休日])
