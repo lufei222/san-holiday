@@ -3,33 +3,30 @@
 
 CSDN博客地址:[获取全年所有节假日非工作日
 ](https://blog.csdn.net/u011456337/article/details/86180383)
-
 代码地址：
 https://github.com/lufei222/san-holiday
-
 github上不去就下码云的
 https://gitee.com/lufei222/san-holiday
-
 ## 方法一 ： 代码运行获得节假日
 周末 + 节假日 -（被调成工作日的日期）= 节假日
 
 1.创建数据库 （createDB.sql 文件）  
 2.修改 DBConfig 数据库配置
 3.在 DateServiceFactory 如 添加类 Date2023
- case 2023: {
-    return new Date2023();
+case 2023: {
+return new Date2023();
 }
-4.参考 Date2022、Date2021，Date2020新增类 如 Date2023 --->>> 补充方法中的法定节假日和调休日期  
+4.参考 Date2023、Date2022、Date2021，Date2020新增类 如 Date2023 --->>> 补充方法中的法定节假日和调休日期  
 5.运行 com/holiday/GetHolidaysApplication.java  main 方法
 
-日期格式自定义修改getHolidays的变量 SEPARATOR(在GetHolidaysApplication类中) ，用20220101或2022-01-01
+日期格式自定义修改getHolidays的变量 SEPARATOR(在GetHolidaysApplication类中) ，用20230101或2023-01-01
 
 6、查看控制台日志、数据库插入情况
 
-## 方法二：直接执行拿2022.sql 日期数据 到自己的数据库
+## 方法二：直接执行拿2023.sql 日期数据 到自己的数据库
 - 执行创建数据库 createDB.sql
 
-- 执行数据 2022.sql
+- 执行数据 2023.sql
 
 ***
 ## 方法三：调用api查询（2020年及之前的年份才能用此api）
